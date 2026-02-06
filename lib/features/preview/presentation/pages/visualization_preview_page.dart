@@ -244,36 +244,37 @@ class _InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(AppDimensions.spacing12),
+        padding: EdgeInsets.all(AppDimensions.spacing8),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.r),
               child: Image.network(
                 imageUrl,
-                width: 60.w,
-                height: 60.h,
+                width: 50.w,
+                height: 50.h,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    width: 60.w,
-                    height: 60.h,
+                    width: 50.w,
+                    height: 50.h,
                     color: AppColors.beige,
                   );
                 },
               ),
             ),
-            SizedBox(width: AppDimensions.spacing12),
+            SizedBox(width: AppDimensions.spacing8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(title, style: Theme.of(context).textTheme.labelSmall),
+                  SizedBox(height: 2.h),
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
