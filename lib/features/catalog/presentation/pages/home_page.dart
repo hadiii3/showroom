@@ -52,9 +52,9 @@ class HomePage extends StatelessWidget {
                   Text(
                     AppStrings.appTitle,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: AppColors.white,
-                      fontSize: 48.sp,
-                    ),
+                          color: AppColors.white,
+                          fontSize: 48.sp,
+                        ),
                     textAlign: TextAlign.center,
                   ),
 
@@ -63,9 +63,9 @@ class HomePage extends StatelessWidget {
                   Text(
                     AppStrings.exploreCollection,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppColors.white.withOpacity(0.9),
-                      fontWeight: FontWeight.w400,
-                    ),
+                          color: AppColors.white.withOpacity(0.9),
+                          fontWeight: FontWeight.w400,
+                        ),
                     textAlign: TextAlign.center,
                   ),
 
@@ -98,6 +98,22 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) =>
                               const CatalogPage(furnitureType: 'couch'),
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: AppDimensions.spacing24),
+
+                  // Recent Visualizations Button
+                  _LuxuryButton(
+                    label: 'Recent Visualizations',
+                    icon: Icons.history,
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Recent visualizations - Coming soon!'),
+                          duration: Duration(seconds: 2),
                         ),
                       );
                     },

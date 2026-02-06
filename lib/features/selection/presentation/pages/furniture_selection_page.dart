@@ -107,6 +107,7 @@ class _FurnitureSelectionPageState extends State<FurnitureSelectionPage> {
                               builder: (context) => VisualizationPreviewPage(
                                 fabric: widget.fabric,
                                 furniture: item,
+                                furnitureType: widget.furnitureType,
                               ),
                             ),
                           );

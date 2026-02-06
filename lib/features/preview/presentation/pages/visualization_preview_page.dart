@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:showroom/core/constants/app_colors.dart';
 import 'package:showroom/core/constants/app_strings.dart';
 import 'package:showroom/core/constants/app_dimensions.dart';
 import 'package:showroom/features/catalog/data/models/fabric_model.dart';
 import 'package:showroom/features/selection/data/models/furniture_model.dart';
+import 'package:showroom/features/catalog/presentation/pages/catalog_page.dart';
 
 class VisualizationPreviewPage extends StatefulWidget {
   final FabricModel fabric;
   final FurnitureModel furniture;
+  final String furnitureType;
 
   const VisualizationPreviewPage({
     super.key,
     required this.fabric,
     required this.furniture,
+    required this.furnitureType,
   });
 
   @override
@@ -78,16 +82,31 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
-                              // Furniture visualization (simulated)
-                              Image.network(
-                                widget.furniture.angleImageUrls[index],
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    color: AppColors.beige,
-                                    child: const Icon(Icons.image, size: 64),
+                              // Furniture visualization (tappable for fullscreen)
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          _FullscreenImageView(
+                                        imageUrl: widget
+                                            .furniture.angleImageUrls[index],
+                                        tag: 'preview-$index',
+                                      ),
+                                    ),
                                   );
                                 },
+                                child: Image.network(
+                                  widget.furniture.angleImageUrls[index],
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      color: AppColors.beige,
+                                      child: const Icon(Icons.image, size: 64),
+                                    );
+                                  },
+                                ),
                               ),
 
                               // Overlay indicator
@@ -191,7 +210,17 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              // Navigate directly back to catalog page
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CatalogPage(
+                                    furnitureType: widget.furnitureType,
+                                  ),
+                                ),
+                              );
+                            },
                             icon: const Icon(Icons.texture),
                             label: const Text(AppStrings.changeFabric),
                           ),
@@ -287,6 +316,55 @@ class _InfoCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Fullscreen Image Viewer with zoom/pan
+class _FullscreenImageView extends StatelessWidget {
+  final String imageUrl;
+  final String tag;
+
+  const _FullscreenImageView({
+    required this.imageUrl,
+    required this.tag,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        title: const Text('Preview'),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: PhotoView(
+        imageProvider: NetworkImage(imageUrl),
+        minScale: PhotoViewComputedScale.contained,
+        maxScale: PhotoViewComputedScale.covered * 3,
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.black,
+        ),
+        errorBuilder: (context, error, stackTrace) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 48),
+                const SizedBox(height: 16),
+                Text(
+                  'Failed to load image',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: Colors.white),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
