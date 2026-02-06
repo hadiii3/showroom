@@ -18,6 +18,15 @@ class _MainNavigationState extends State<MainNavigation> {
   final _homeNavigatorKey = GlobalKey<NavigatorState>();
   final _recentNavigatorKey = GlobalKey<NavigatorState>();
 
+  // Static method to switch tabs from anywhere
+  static void switchToTab(BuildContext context, int tabIndex) {
+    final mainNavState =
+        context.findAncestorStateOfType<_MainNavigationState>();
+    mainNavState?.setState(() {
+      mainNavState._currentIndex = tabIndex;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -77,6 +86,11 @@ class _MainNavigationState extends State<MainNavigation> {
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) {
+              if (_currentIndex != index) {
+                // Reset the navigator stack when switching tabs
+                final navigator = _getCurrentNavigatorByIndex(index);
+                navigator?.currentState?.popUntil((route) => route.isFirst);
+              }
               setState(() {
                 _currentIndex = index;
               });
@@ -118,7 +132,11 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   GlobalKey<NavigatorState>? _getCurrentNavigator() {
-    switch (_currentIndex) {
+    return _getCurrentNavigatorByIndex(_currentIndex);
+  }
+
+  GlobalKey<NavigatorState>? _getCurrentNavigatorByIndex(int index) {
+    switch (index) {
       case 0:
         return _homeNavigatorKey;
       case 1:
