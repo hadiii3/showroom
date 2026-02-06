@@ -32,7 +32,6 @@ class HomePage extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppDimensions.spacing48,
                   vertical: AppDimensions.spacing32,
                 ),
                 child: Column(
