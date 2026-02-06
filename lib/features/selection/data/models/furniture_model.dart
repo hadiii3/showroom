@@ -1,50 +1,24 @@
 import 'package:showroom/features/selection/domain/entities/furniture.dart';
 
 class FurnitureModel extends Furniture {
-  @override
-  final String id;
-
-  @override
-  final String name;
-
-  @override
-  final String description;
-
-  final String typeString; // Store as string for serialization
-
-  @override
-  final List<String> angleImageUrls;
-
-  @override
-  final String? category;
-
   const FurnitureModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.typeString,
-    required this.angleImageUrls,
-    this.category,
-  }) : super(
-         id: id,
-         name: name,
-         description: description,
-         type: typeString == 'couch'
-             ? FurnitureType.couch
-             : FurnitureType.curtain,
-         angleImageUrls: angleImageUrls,
-         category: category,
-       );
+    required super.id,
+    required super.name,
+    required super.type,
+    required super.style,
+    required super.imageUrl,
+    required super.description,
+  });
 
   // JSON serialization
   factory FurnitureModel.fromJson(Map<String, dynamic> json) {
     return FurnitureModel(
       id: json['id'] as String,
       name: json['name'] as String,
+      type: json['type'] as String,
+      style: json['style'] as String,
+      imageUrl: json['imageUrl'] as String,
       description: json['description'] as String,
-      typeString: json['type'] as String,
-      angleImageUrls: List<String>.from(json['angleImageUrls'] as List),
-      category: json['category'] as String?,
     );
   }
 
@@ -52,22 +26,12 @@ class FurnitureModel extends Furniture {
     return {
       'id': id,
       'name': name,
+      'type': type,
+      'style': style,
+      'imageUrl': imageUrl,
       'description': description,
-      'type': typeString,
-      'angleImageUrls': angleImageUrls,
-      'category': category,
     };
   }
 
-  // Create from entity
-  factory FurnitureModel.fromEntity(Furniture furniture) {
-    return FurnitureModel(
-      id: furniture.id,
-      name: furniture.name,
-      description: furniture.description,
-      typeString: furniture.type == FurnitureType.couch ? 'couch' : 'curtain',
-      angleImageUrls: furniture.angleImageUrls,
-      category: furniture.category,
-    );
-  }
+  // No need for fromEntity - Model extends Entity so they're already compatible
 }

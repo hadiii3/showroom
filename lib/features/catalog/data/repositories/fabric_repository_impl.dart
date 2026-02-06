@@ -16,11 +16,12 @@ class FabricRepositoryImpl implements FabricRepository {
   Future<Either<Failure, List<Fabric>>> getAllFabrics() async {
     try {
       final fabrics = await remoteDataSource.getAllFabrics();
+      // FabricModel extends Fabric, so we can return the list directly
       return Right(fabrics);
     } on ServerException {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to fetch fabrics'));
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to fetch fabrics'));
     }
   }
 
@@ -38,11 +39,12 @@ class FabricRepositoryImpl implements FabricRepository {
         return matchesColor && matchesMaterial;
       }).toList();
 
+      // FabricModel extends Fabric, so filtered list is compatible
       return Right(filtered);
     } on ServerException {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to filter fabrics'));
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to filter fabrics'));
     }
   }
 }

@@ -20,9 +20,9 @@ class FurnitureRepositoryImpl implements FurnitureRepository {
           await remoteDataSource.getFurnitureByType(furnitureType);
       return Right(furniture);
     } on ServerException {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to fetch furniture'));
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(const ServerFailure('Failed to fetch furniture'));
     }
   }
 }

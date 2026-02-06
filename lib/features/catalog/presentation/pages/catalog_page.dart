@@ -305,7 +305,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             'Try adjusting your filters',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textTtertiary,
+                  color: AppColors.textTertiary,
                 ),
           ),
         ],

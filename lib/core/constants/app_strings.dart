@@ -9,11 +9,12 @@ class AppStrings {
 
   // Catalog
   static const String fabricCatalog = 'Fabric Catalog';
+  static const String curtainCatalog = 'Curtain Catalog';
+  static const String couchCatalog = 'Couch Catalog';
   static const String filters = 'Filters';
-  static const String allColors = 'All Colors';
-  static const String allMaterials = 'All Materials';
-  static const String allPatterns = 'All Patterns';
   static const String clearFilters = 'Clear Filters';
+  static const String color = 'Color';
+  static const String material = 'Material';
 
   // Fabric Details
   static const String fabricDetails = 'Fabric Details';
@@ -29,6 +30,8 @@ class AppStrings {
   // Selection
   static const String curtainStyles = 'Curtain Styles';
   static const String selectCurtainType = 'Select Curtain Type';
+  static const String selectCurtain = 'Select a Curtain';
+  static const String selectCouch = 'Select a Couch';
   static const String chooseStyle = 'Choose a style to begin visualization';
   static const String couchSelection = 'Couch Selection';
   static const String selectYourCouch = 'Select your couch silhouette';
