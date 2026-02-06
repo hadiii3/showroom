@@ -65,8 +65,7 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Angle PageView
-                  SizedBox(
-                    height: 500.h,
+                  Expanded(
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: widget.furniture.angleImageUrls.length,
@@ -123,14 +122,17 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                   SizedBox(height: AppDimensions.spacing16),
 
                   // Page Indicator
-                  AnimatedSmoothIndicator(
-                    activeIndex: _currentAngleIndex,
-                    count: widget.furniture.angleImageUrls.length,
-                    effect: WormEffect(
-                      dotWidth: AppDimensions.pageIndicatorSize.toDouble(),
-                      dotHeight: AppDimensions.pageIndicatorSize.toDouble(),
-                      activeDotColor: AppColors.accent,
-                      dotColor: AppColors.divider,
+                  Padding(
+                    padding: EdgeInsets.only(bottom: AppDimensions.spacing16),
+                    child: AnimatedSmoothIndicator(
+                      activeIndex: _currentAngleIndex,
+                      count: widget.furniture.angleImageUrls.length,
+                      effect: WormEffect(
+                        dotWidth: AppDimensions.pageIndicatorSize.toDouble(),
+                        dotHeight: AppDimensions.pageIndicatorSize.toDouble(),
+                        activeDotColor: AppColors.accent,
+                        dotColor: AppColors.divider,
+                      ),
                     ),
                   ),
 
@@ -158,27 +160,29 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
 
-                  SizedBox(height: AppDimensions.spacing16),
+                  SizedBox(height: AppDimensions.spacing12),
 
                   // Selection Info Cards
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _InfoCard(
-                          title: AppStrings.fabric,
-                          subtitle: widget.fabric.name,
-                          imageUrl: widget.fabric.imageUrl,
+                  Flexible(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _InfoCard(
+                            title: AppStrings.fabric,
+                            subtitle: widget.fabric.name,
+                            imageUrl: widget.fabric.imageUrl,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: AppDimensions.spacing16),
-                      Expanded(
-                        child: _InfoCard(
-                          title: AppStrings.object,
-                          subtitle: widget.furniture.name,
-                          imageUrl: widget.furniture.angleImageUrls.first,
+                        SizedBox(width: AppDimensions.spacing16),
+                        Expanded(
+                          child: _InfoCard(
+                            title: AppStrings.object,
+                            subtitle: widget.furniture.name,
+                            imageUrl: widget.furniture.angleImageUrls.first,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
 
                   const Spacer(),
