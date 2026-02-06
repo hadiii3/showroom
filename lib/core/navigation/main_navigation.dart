@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:showroom/core/constants/app_colors.dart';
 import 'package:showroom/features/catalog/presentation/pages/home_page.dart';
-import 'package:showroom/features/catalog/presentation/pages/catalog_page.dart';
+import 'package:showroom/features/catalog/presentation/pages/catalog_selection_page.dart';
 import 'package:showroom/features/preview/presentation/pages/recent_visualizations_page.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -17,7 +17,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const CatalogPage(furnitureType: 'couch'),
+    const CatalogSelectionPage(),
     const RecentVisualizationsPage(),
   ];
 
