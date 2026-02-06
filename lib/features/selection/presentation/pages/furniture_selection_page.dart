@@ -7,6 +7,7 @@ import 'package:showroom/features/catalog/data/models/fabric_model.dart';
 import 'package:showroom/features/selection/data/datasources/furniture_remote_datasource.dart';
 import 'package:showroom/features/selection/data/models/furniture_model.dart';
 import 'package:showroom/features/preview/presentation/pages/visualization_preview_page.dart';
+import 'package:showroom/core/widgets/shimmer_loading.dart';
 
 class FurnitureSelectionPage extends StatefulWidget {
   final FabricModel fabric;
@@ -58,7 +59,9 @@ class _FurnitureSelectionPageState extends State<FurnitureSelectionPage> {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? ShimmerGrid(
+              crossAxisCount: widget.furnitureType == 'curtain' ? 3 : 2,
+            )
           : Column(
               children: [
                 // Header

@@ -8,6 +8,7 @@ import 'package:showroom/core/constants/app_dimensions.dart';
 import 'package:showroom/features/catalog/data/models/fabric_model.dart';
 import 'package:showroom/features/selection/data/models/furniture_model.dart';
 import 'package:showroom/features/catalog/presentation/pages/catalog_page.dart';
+import 'package:showroom/core/widgets/luxury_snackbar.dart';
 
 class VisualizationPreviewPage extends StatefulWidget {
   final FabricModel fabric;
@@ -51,9 +52,11 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
           IconButton(
             icon: const Icon(Icons.bookmark_border),
             onPressed: () {
-              ScaffoldMessenger.of(
+              LuxurySnackBar.show(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('Saved to recent')));
+                message: 'Saved to recent',
+                type: SnackBarType.success,
+              );
             },
           ),
         ],
@@ -229,12 +232,10 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Saved to recent visualizations!',
-                                  ),
-                                ),
+                              LuxurySnackBar.show(
+                                context,
+                                message: 'Saved to recent visualizations!',
+                                type: SnackBarType.success,
                               );
                               Navigator.popUntil(
                                 context,

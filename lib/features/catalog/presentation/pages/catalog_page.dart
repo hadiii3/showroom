@@ -6,6 +6,7 @@ import 'package:showroom/core/constants/app_dimensions.dart';
 import 'package:showroom/features/catalog/data/datasources/fabric_remote_datasource.dart';
 import 'package:showroom/features/catalog/data/models/fabric_model.dart';
 import 'package:showroom/features/catalog/presentation/pages/fabric_details_page.dart';
+import 'package:showroom/core/widgets/shimmer_loading.dart';
 
 class CatalogPage extends StatefulWidget {
   final String furnitureType;
@@ -80,7 +81,15 @@ class _CatalogPageState extends State<CatalogPage> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Row(
+              children: [
+                Container(
+                  width: 250.w,
+                  color: AppColors.backgroundSecondary,
+                ),
+                const Expanded(child: ShimmerGrid()),
+              ],
+            )
           : Row(
               children: [
                 // Filter Sidebar
@@ -106,30 +115,27 @@ class _CatalogPageState extends State<CatalogPage> {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children:
-                            [
-                                  'neutral',
-                                  'blue',
-                                  'beige',
-                                  'green',
-                                  'white',
-                                  'gray',
-                                ]
-                                .map(
-                                  (color) => FilterChip(
-                                    label: Text(color),
-                                    selected: _selectedColor == color,
-                                    onSelected: (selected) {
-                                      setState(() {
-                                        _selectedColor = selected
-                                            ? color
-                                            : null;
-                                        _applyFilters();
-                                      });
-                                    },
-                                  ),
-                                )
-                                .toList(),
+                        children: [
+                          'neutral',
+                          'blue',
+                          'beige',
+                          'green',
+                          'white',
+                          'gray',
+                        ]
+                            .map(
+                              (color) => FilterChip(
+                                label: Text(color),
+                                selected: _selectedColor == color,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    _selectedColor = selected ? color : null;
+                                    _applyFilters();
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
                       ),
 
                       SizedBox(height: AppDimensions.spacing24),
@@ -143,30 +149,28 @@ class _CatalogPageState extends State<CatalogPage> {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children:
-                            [
-                                  'linen',
-                                  'velvet',
-                                  'chenille',
-                                  'silk',
-                                  'wool',
-                                  'cotton',
-                                ]
-                                .map(
-                                  (material) => FilterChip(
-                                    label: Text(material),
-                                    selected: _selectedMaterial == material,
-                                    onSelected: (selected) {
-                                      setState(() {
-                                        _selectedMaterial = selected
-                                            ? material
-                                            : null;
-                                        _applyFilters();
-                                      });
-                                    },
-                                  ),
-                                )
-                                .toList(),
+                        children: [
+                          'linen',
+                          'velvet',
+                          'chenille',
+                          'silk',
+                          'wool',
+                          'cotton',
+                        ]
+                            .map(
+                              (material) => FilterChip(
+                                label: Text(material),
+                                selected: _selectedMaterial == material,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    _selectedMaterial =
+                                        selected ? material : null;
+                                    _applyFilters();
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
                       ),
                     ],
                   ),
@@ -182,11 +186,11 @@ class _CatalogPageState extends State<CatalogPage> {
                           padding: EdgeInsets.all(AppDimensions.spacing16),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: AppDimensions.gridSpacing,
-                                mainAxisSpacing: AppDimensions.gridSpacing,
-                                childAspectRatio: 0.75,
-                              ),
+                            crossAxisCount: 3,
+                            crossAxisSpacing: AppDimensions.gridSpacing,
+                            mainAxisSpacing: AppDimensions.gridSpacing,
+                            childAspectRatio: 0.75,
+                          ),
                           itemCount: _filteredFabrics.length,
                           itemBuilder: (context, index) {
                             final fabric = _filteredFabrics[index];
@@ -260,9 +264,9 @@ class _FabricCard extends StatelessWidget {
                   Text(
                     '\$${fabric.pricePerYard.toStringAsFixed(0)} ${AppStrings.pricePerYard}',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.accent,
-                      fontWeight: FontWeight.w600,
-                    ),
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                 ],
               ),
