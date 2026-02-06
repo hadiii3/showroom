@@ -152,19 +152,19 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
             flex: 1,
             child: Container(
               padding: EdgeInsets.all(AppDimensions.spacing24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    AppStrings.currentSelection,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      AppStrings.currentSelection,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
 
-                  SizedBox(height: AppDimensions.spacing12),
+                    SizedBox(height: AppDimensions.spacing16),
 
-                  // Selection Info Cards
-                  Flexible(
-                    child: Row(
+                    // Selection Info Cards
+                    Row(
                       children: [
                         Expanded(
                           child: _InfoCard(
@@ -183,43 +183,43 @@ class _VisualizationPreviewPageState extends State<VisualizationPreviewPage> {
                         ),
                       ],
                     ),
-                  ),
 
-                  const Spacer(),
+                    SizedBox(height: AppDimensions.spacing24),
 
-                  // Action Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.texture),
-                          label: const Text(AppStrings.changeFabric),
+                    // Action Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.texture),
+                            label: const Text(AppStrings.changeFabric),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: AppDimensions.spacing12),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Saved to recent visualizations!',
+                        SizedBox(width: AppDimensions.spacing12),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Saved to recent visualizations!',
+                                  ),
                                 ),
-                              ),
-                            );
-                            Navigator.popUntil(
-                              context,
-                              (route) => route.isFirst,
-                            );
-                          },
-                          icon: const Icon(Icons.save),
-                          label: const Text(AppStrings.saveToRecent),
+                              );
+                              Navigator.popUntil(
+                                context,
+                                (route) => route.isFirst,
+                              );
+                            },
+                            icon: const Icon(Icons.save),
+                            label: const Text(AppStrings.saveToRecent),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
