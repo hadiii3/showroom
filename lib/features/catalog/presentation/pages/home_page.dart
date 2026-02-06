@@ -121,13 +121,8 @@ class HomePage extends StatelessWidget {
                       height: 64.h,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const CatalogSelectionPage(),
-                            ),
-                          );
+                          // Switch to catalog tab (index 1)
+                          _MainNavigationState.switchToTab(context, 1);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFD4AF37),
