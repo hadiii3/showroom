@@ -14,69 +14,119 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    const HomePage(),
-    const CatalogSelectionPage(),
-    const RecentVisualizationsPage(),
-  ];
+  final _catalogNavigatorKey = GlobalKey<NavigatorState>();
+  final _homeNavigatorKey = GlobalKey<NavigatorState>();
+  final _recentNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle back button for nested navigators
+        final currentNavigator = _getCurrentNavigator();
+        if (currentNavigator != null &&
+            currentNavigator.currentState?.canPop() == true) {
+          currentNavigator.currentState?.pop();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: IndexedStack(
+          index: _currentIndex,
+          children: [
+            // Home tab with nested navigator
+            Navigator(
+              key: _homeNavigatorKey,
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                );
+              },
+            ),
+            // Catalog tab with nested navigator
+            Navigator(
+              key: _catalogNavigatorKey,
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => const CatalogSelectionPage(),
+                );
+              },
+            ),
+            // Recent tab with nested navigator
+            Navigator(
+              key: _recentNavigatorKey,
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => const RecentVisualizationsPage(),
+                );
+              },
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          backgroundColor: AppColors.white,
-          selectedItemColor: const Color(0xFFD4AF37), // Luxury gold
-          unselectedItemColor: AppColors.textTertiary,
-          selectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
           ),
-          unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 11.sp,
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            backgroundColor: AppColors.white,
+            selectedItemColor: const Color(0xFFD4AF37), // Luxury gold
+            unselectedItemColor: AppColors.textTertiary,
+            selectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12.sp,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 11.sp,
+            ),
+            type: BottomNavigationBarType.fixed,
+            elevation: 8,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.collections_outlined),
+                activeIcon: Icon(Icons.collections),
+                label: 'Catalog',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history_outlined),
+                activeIcon: Icon(Icons.history),
+                label: 'Recent',
+              ),
+            ],
           ),
-          type: BottomNavigationBarType.fixed,
-          elevation: 8,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.collections_outlined),
-              activeIcon: Icon(Icons.collections),
-              label: 'Catalog',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history_outlined),
-              activeIcon: Icon(Icons.history),
-              label: 'Recent',
-            ),
-          ],
         ),
       ),
     );
+  }
+
+  GlobalKey<NavigatorState>? _getCurrentNavigator() {
+    switch (_currentIndex) {
+      case 0:
+        return _homeNavigatorKey;
+      case 1:
+        return _catalogNavigatorKey;
+      case 2:
+        return _recentNavigatorKey;
+      default:
+        return null;
+    }
   }
 }
