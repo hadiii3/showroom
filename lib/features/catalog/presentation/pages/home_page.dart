@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:showroom/core/constants/app_colors.dart';
 import 'package:showroom/core/constants/app_dimensions.dart';
-import 'package:showroom/features/catalog/presentation/pages/catalog_selection_page.dart';
+import 'package:showroom/core/navigation/main_navigation.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
